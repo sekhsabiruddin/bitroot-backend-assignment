@@ -3,27 +3,29 @@ import { Modal, Backdrop, Fade, Button, TextField, Grid } from "@mui/material";
 
 import { useDispatch } from "react-redux";
 import { updateQuestion } from "../../redux/actions/allquestion";
+import { toast } from "react-toastify";
 const QuestionModal = ({ open, handleClose, question }) => {
   const [updatedQuestion, setUpdatedQuestion] = useState(question);
+
   const dispatch = useDispatch();
   const handleUpdate = async () => {
     if (!updatedQuestion.question || updatedQuestion.question.trim() === "") {
-      console.log("Question field cannot be empty");
+      toast.error("Question field cannot be empty");
       return;
     }
 
     if (
       updatedQuestion.options.some((option) => !option || option.trim() === "")
     ) {
-      console.log("Option fields cannot be empty");
+      toast.error("Option fields cannot be empty");
       return;
     }
-    console.log(
-      "updatedQuestion._id",
-      updatedQuestion._id,
-      " updatedQuestion",
-      updatedQuestion
-    );
+
+    if (!updatedQuestion.options.includes(updatedQuestion.answer)) {
+      toast.error("Answer should be one of the provided options");
+      return;
+    }
+
     await dispatch(updateQuestion(updatedQuestion._id, updatedQuestion));
 
     handleClose();
@@ -79,6 +81,15 @@ const QuestionModal = ({ open, handleClose, question }) => {
                   />
                 </Grid>
               ))}
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Answer"
+                  name="answer"
+                  value={updatedQuestion.answer}
+                  onChange={handleChange}
+                />
+              </Grid>
             </Grid>
             <div className="text-center mt-10">
               <Button

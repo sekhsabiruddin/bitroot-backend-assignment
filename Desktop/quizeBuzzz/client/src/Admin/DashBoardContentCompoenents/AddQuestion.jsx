@@ -5,6 +5,7 @@ import { getAllQuestion } from "../../redux/actions/allquestion";
 import styles from "../../styles/styles";
 import { toast } from "react-toastify";
 import { CiBookmarkPlus } from "react-icons/ci";
+import { CgOverflow } from "react-icons/cg";
 const AddQuestion = () => {
   const dispatch = useDispatch();
   const [question, setQuestion] = useState("");
@@ -42,9 +43,9 @@ const AddQuestion = () => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full " style={{ overflow: "hidden" }}>
       <div className="flex w-full my-2 lg:my-5 justify-center">
-        <div className=" w-[95%] p-3 lg:w-[90%] questionBoxShadow lg:py-5 lg:px-5">
+        <div className="w-[95%] p-3 lg:w-[90%] questionBoxShadow lg:py-5 lg:px-5">
           <div>
             <form onSubmit={handleSubmit} aria-required={true}>
               <div>

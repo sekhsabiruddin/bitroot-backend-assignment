@@ -8,6 +8,7 @@ import { server } from "../../server";
 import { loadAdmin } from "../../redux/actions/admin";
 import { useDispatch } from "react-redux";
 import { backend_url } from "../../server";
+import validator from "validator";
 const AdminProfile = () => {
   const admin = useSelector((state) => state.admin.admin);
 
@@ -20,7 +21,24 @@ const AdminProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger;
+    if (!name.trim()) {
+      toast.error("Name cannot be empty");
+      return;
+    }
+
+    if (!address.trim()) {
+      toast.error("Address cannot be empty");
+      return;
+    }
+    if (!validator.isEmail(email)) {
+      toast.error("Invalid email address");
+      return;
+    }
+
+    if (!validator.isMobilePhone(phoneNumber, "any", { strictMode: false })) {
+      toast.error("Invalid phone number");
+      return;
+    }
     const formData = new FormData();
     formData.append("file", avatar);
     formData.append("name", name);
@@ -119,6 +137,7 @@ const AdminProfile = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                readOnly
               />
             </div>
           </div>

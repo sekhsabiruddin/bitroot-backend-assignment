@@ -7,6 +7,7 @@ import styles from "../../../styles/styles";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../Loading/Loading";
 import { loadUser } from "../../../redux/actions/user";
+import validator from "validator";
 const MainProfile = () => {
   const { user, loading } = useSelector((state) => state.user);
   const [name, setName] = useState("");
@@ -31,7 +32,24 @@ const MainProfile = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!name.trim()) {
+      toast.error("Name cannot be empty");
+      return;
+    }
 
+    if (!address.trim()) {
+      toast.error("Address cannot be empty");
+      return;
+    }
+    if (!validator.isEmail(email)) {
+      toast.error("Invalid email address");
+      return;
+    }
+
+    if (!validator.isMobilePhone(phoneNumber, "any", { strictMode: false })) {
+      toast.error("Invalid phone number");
+      return;
+    }
     const formData = new FormData();
     formData.append("file", avatar);
     formData.append("name", name);

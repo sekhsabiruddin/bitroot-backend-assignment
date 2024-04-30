@@ -7,10 +7,7 @@ const Start = () => {
   };
   return (
     <div className="border-opacity-0 w-full h-[90vh]">
-      <div
-        className="w-[90%] lg:w-[60%] px-4 py-3 mx-auto h-[90vh] bg-[#fff] text-[#877d7d]"
-        style={{ fontFamily: "romans" }}
-      >
+      <div className="w-[90%] lg:w-[60%] px-4 py-3 mx-auto h-[90vh] bg-[#fff] text-[#877d7d]">
         <h1 className="mb-1 text-[1.1rem]">
           1. Welcome to <b className="text-[#000000cc]">CoderQuiz</b>
         </h1>
@@ -34,9 +31,10 @@ const Start = () => {
           6. Each question is worth <b className="text-[#000000cc]">1 mark.</b>
         </h1>
         <h1 className="mb-1 text-[1.1rem]">
-          7. You will receive 16 questions and{" "}
-          <b className="text-[#000000cc]">have 10 minutes.</b> Only press the
-          <b className="text-[#000000cc]">submit button</b> when you have
+          7. You will receive <b className="text-[#000000cc]">16 questions</b>
+          and <b className="text-[#000000b0]">have 10 minutes.</b> Only press
+          the
+          <b className="text-[#000000cc]"> submit button </b> when you have
           finished your test.
         </h1>
         <div className="text-center mt-10">

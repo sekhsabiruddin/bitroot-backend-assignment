@@ -2,12 +2,30 @@ import React, { useState } from "react";
 import axios from "axios";
 import { server } from "../../../server";
 import { toast } from "react-toastify";
+import validator from "validator";
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState();
   const [password, setpassword] = useState();
   const [confirmPassword, setnConfirmPassword] = useState();
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validator.isLength(password, { min: 6 })) {
+      toast.error("Password should be at least 6 characters long");
+      return;
+    }
+
+    // Validate confirm password length
+    if (!validator.isLength(confirmPassword, { min: 6 })) {
+      toast.error("Confirm password should be at least 6 characters long");
+      return;
+    }
+
+    // Validate if password and confirm password match
+    if (password !== confirmPassword) {
+      toast.error("Password and confirm password do not match");
+      return;
+    }
     axios
       .post(
         `${server}/user/change-password`,

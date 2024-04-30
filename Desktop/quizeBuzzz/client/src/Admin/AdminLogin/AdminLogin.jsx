@@ -15,7 +15,9 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`${server}/admin/login`);
+
+    debugger;
+
     await axios
       .post(
         `${server}/admin/login`,
@@ -31,7 +33,10 @@ const AdminLogin = () => {
         window.location.reload(true);
       })
       .catch((err) => {
-        toast.error(err.response.data.message);
+        console.log(err);
+        if (err && err.response && err.response.data) {
+          toast.error(err.response.data);
+        }
       });
   };
   return (
@@ -134,10 +139,6 @@ const AdminLogin = () => {
                 Submit
               </button>
             </div>
-            {/* //border end  */}
-            {/* //sing up start */}
-
-            {/* //sing up end */}
           </form>
         </div>
       </div>

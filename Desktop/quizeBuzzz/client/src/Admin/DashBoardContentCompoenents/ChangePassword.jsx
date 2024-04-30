@@ -2,17 +2,33 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { server } from "../../server";
-
+import validator from "validator";
+import Loading from "../../components/Loading/Loading";
 const ChangePassword = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [loading, setLaoaing] = useState(false);
+  if (loading) {
+    return <Loading />;
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLaoaing(true);
+    if (!validator.isLength(password, { min: 6 })) {
+      toast.error("Password should be at least 6 characters long");
+      return;
+    }
 
+    // Validate confirm password length
+    if (!validator.isLength(confirmPassword, { min: 6 })) {
+      toast.error("Confirm password should be at least 6 characters long");
+      return;
+    }
+
+    // Validate if password and confirm password match
     if (password !== confirmPassword) {
-      toast.error("New password and confirm password do not match");
+      toast.error("Password and confirm password do not match");
       return;
     }
 
@@ -27,11 +43,15 @@ const ChangePassword = () => {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log(response);
+        toast.success(response.data.message);
+        setOldPassword("");
+        setPassword("");
+        setConfirmPassword("");
       })
       .catch((error) => {
         toast.error(error.response.data.message);
       });
+    setLaoaing(false);
   };
 
   return (

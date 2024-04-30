@@ -9,7 +9,7 @@ import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
-
+import validator from "validator";
 const Singup = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -17,10 +17,13 @@ const Singup = () => {
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
-  const handleSubmit = async (e) => {
-    debugger;
-    e.preventDefault();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validator.isLength(password, { min: 6 })) {
+      toast.error("Password should be at least 6 characters long");
+      return;
+    }
     // Configuring headers for the request
     const config = {
       headers: {
@@ -41,9 +44,9 @@ const Singup = () => {
         formData, // Form data to be sent
         config // Configuration for the request
       );
-      console.log("response", response);
+      console.log("singup response ", response);
       // Display success message from the server response
-      toast.success(response.response.data);
+      toast.success(response.data.message);
       // Resetting form fields after successful submission
       setName("");
       setEmail("");
