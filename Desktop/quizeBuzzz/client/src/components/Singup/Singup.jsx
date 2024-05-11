@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
-
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
@@ -20,6 +18,12 @@ const Singup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validator.isEmail(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
     if (!validator.isLength(password, { min: 6 })) {
       toast.error("Password should be at least 6 characters long");
       return;
@@ -38,13 +42,12 @@ const Singup = () => {
     formData.append("email", email);
     formData.append("password", password);
     try {
-      // Sending a POST request to the server endpoint with form data and config
       const response = await axios.post(
-        `${server}/user/create-user`, // Server endpoint URL
+        `${server}/user/create-user`,
         formData, // Form data to be sent
         config // Configuration for the request
       );
-      console.log("singup response ", response);
+
       // Display success message from the server response
       toast.success(response.data.message);
       // Resetting form fields after successful submission
@@ -54,7 +57,6 @@ const Singup = () => {
       setAvatar("");
       navigate("/");
     } catch (err) {
-      console.log(err);
       toast.error(err.response.data.message);
     }
   };
